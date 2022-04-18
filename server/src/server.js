@@ -18,12 +18,18 @@ async function startServer() {
   await loadPlanetsData();
   await loadLaunchData();
   
-  https.createServer({
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
-  }, app).listen(PORT, () => {
+  // HTTP Server
+  http.createServer(app).listen(PORT, () => {
     console.log(`Listening on port ${PORT}`);
   });
+
+  // HTTPS Server
+  // https.createServer({
+  //   key: fs.readFileSync('key.pem'),
+  //   cert: fs.readFileSync('cert.pem')
+  // }, app).listen(PORT, () => {
+  //   console.log(`Listening on port ${PORT}`);
+  // });
 }
 
 startServer();
