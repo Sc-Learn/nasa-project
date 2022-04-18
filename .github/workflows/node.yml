@@ -8,9 +8,13 @@ jobs:
   build:
     env:
       CI: true
+      MONGO_URL: mongodb://localhost/nasa
+      GOOGLE_CLIENT_ID: 723609445886-4o8pbvtid8ino4gcofpbrai6nb98ng7m.apps.googleusercontent.com
+      GOOGLE_CLIENT_SECRET: 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
     strategy:
       matrix:
         node-version: [14.x, 16.x]
+        mongodb-version: ['4.4']
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -18,6 +22,10 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Use MongoDB from Github Actions
+        uses: supercharge/mongodb-github-action@1.6.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
       - run: npm install
       - run: npm run build --prefix client
       - run: npm test
